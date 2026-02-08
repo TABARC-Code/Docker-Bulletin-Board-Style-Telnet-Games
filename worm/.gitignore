@@ -1,0 +1,14 @@
+# Editor junk
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS nonsense
+.DS_Store
+
+# Runtime junk
+/tmp/.worm_scores
+
+# Docker leftovers
+*.log
