@@ -1,5 +1,9 @@
 # Worm
 
+<p align="center">
+  <img src=".branding/tabarc-icon.svg" width="180" alt="TABARC-Code Icon">
+</p>
+
 A classic ASCII snake game, recreated from memory of those late-night sessions
 telnetting into forgotten servers.
 
