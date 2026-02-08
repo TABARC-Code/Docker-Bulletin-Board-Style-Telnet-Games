@@ -1,0 +1,13 @@
+================================================================================
+BACKUP SERVICE v2.1.4 - Maintenance Terminal
+
+Last system check: OK
+Backup status: Active
+Next scheduled backup: 03:00 UTC
+
+For administrative access, please use proper credentials.
+
+Some deprecated utilities might still be in /usr/local/games/
+They're probably broken. Haven't tested them in years.
+Scheduled for removal in next maintenance window (whenever that is).
+================================================================================
