@@ -1,0 +1,8 @@
+TODO:
+- remove telnet service on 2323
+- verify nothing depends on it
+- migrate cache service to proper daemon
+
+NOTE:
+might be some old games in /usr/local/games/
+probably unrelated
