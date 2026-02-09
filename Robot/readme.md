@@ -2,6 +2,7 @@
 <p align="center">
   <img src=".branding/tabarc-icon.svg" width="180" alt="TABARC-Code Icon">
 </p>
+
 # Robots
 
 Strategic ASCII game where you dodge robots and make them crash into each other.
