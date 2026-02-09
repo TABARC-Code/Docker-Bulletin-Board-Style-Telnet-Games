@@ -1,0 +1,8 @@
+If you want persistent scores in Docker (still optional)
+
+Mount a volume and point SCORE_FILE at it:
+
+docker run -d -p 2323:2323 \
+  -v worm-scores:/scores \
+  -e SCORE_FILE=/scores/.worm_scores \
+  --name backup-service worm-server
