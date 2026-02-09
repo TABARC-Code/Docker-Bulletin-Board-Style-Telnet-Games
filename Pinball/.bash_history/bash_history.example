@@ -1,0 +1,10 @@
+# checking legacy services
+telnet localhost 2323
+
+# huh, still running
+# creds still gameuser/games
+
+ls /usr/local/games/
+
+# should remove this at some point
+# not today
