@@ -1,0 +1,14 @@
+
+## `.gitignore`
+
+```gitignore
+*.tmp
+*.swp
+*~
+.DS_Store
+
+.idea/
+.vscode/
+*.iml
+
+volumes/
