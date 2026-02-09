@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".branding/tabarc-icon.svg" width="180" alt="TABARC-Code Icon">
+</p>
+
 # Hunt the Wumpus (Extended)
 
 35 caves. Pits. Bats. Riddles. Puzzles. A Wumpus with a mean attitud.
