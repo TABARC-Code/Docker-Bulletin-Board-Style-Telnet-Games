@@ -1,0 +1,11 @@
+# Cache maintenance (legacy)
+# Added by previous admin, date unknown
+# Disabled pending audit / replacement
+#
+# 03:00 nightly cache sweep
+# 0 3 * * * gameuser /usr/local/bin/cache-cleanup.sh >> /var/log/cache.log 2>&1
+#
+# NOTE:
+# - cleanup script missing
+# - service still responding on 2323 (telnet)
+# - probably safe to remove once confirmed unused
