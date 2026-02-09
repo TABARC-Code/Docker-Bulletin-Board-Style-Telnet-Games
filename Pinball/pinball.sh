@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Pinball - ASCII pinball with physics
-# Recreated from a Unix box, circa 1995 
-#
+# Recreated from a Unix box, circa 1995
+
+## Tabarc-Code
+
 # No graphics. No sound. Just the raw shame of missing a flipper timing window.
 
 : "${SCORE_FILE:=/tmp/.pinball_scores}"
