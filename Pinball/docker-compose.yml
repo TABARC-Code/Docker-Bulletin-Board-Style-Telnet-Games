@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  pinball-server:
+    build: .
+    container_name: cache-service
+    ports:
+      - "2323:2323"
+    environment:
+      - TERM=xterm-256color
+    restart: unless-stopped
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
