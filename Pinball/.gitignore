@@ -1,0 +1,18 @@
+# Editor junk
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS nonsense
+.DS_Store
+
+# Game state
+/tmp/.pinball_scores
+
+# Docker leftovers
+volumes/
+
+# Build artefacts
+*.o
+*.so
