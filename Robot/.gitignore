@@ -1,0 +1,16 @@
+*.tmp
+*.swp
+*~
+.DS_Store
+
+# game state (local)
+.tmp/
+# If you run locally, scores are in /tmp, not the repo. No need to track.
+
+# IDE junk
+.idea/
+.vscode/
+*.iml
+
+# docker junk
+volumes/
