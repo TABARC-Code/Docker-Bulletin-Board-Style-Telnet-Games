@@ -6,6 +6,14 @@
 
 35 caves. Pits. Bats. Riddles. Puzzles. A Wumpus with a mean attitud.
 
+------
+# Hunt the Wumpus - Extended Edition
+# 35 caves, riddles, puzzles, and an unreasonable number of ways to die.
+# Based on Gregory Yob's 1973 original.
+#
+# It's a text game. If you want fairness, play chess. If you want old school vibes, welcome.
+-------
+
 ## Run locally
 
 ```bash
