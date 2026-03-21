@@ -1,9 +1,9 @@
 # Docker Setup
 
 This runs *Hunt the Wumpus* as a forgotten telnet service.
-Yes, telnet (try googling it if your that young.!!!). That’s the point.
+Yes, telnet (try googling it if you’re that young). That’s the point.
 
-It’s meant to feel like something you weren’t supposed to find. Thatwas part of the funn.
+It’s meant to feel like something you weren’t supposed to find. That was part of the fun.
 
 ---
 
@@ -13,7 +13,7 @@ From the project root:
 
 ```bash
 docker build -t wumpus-server .
-````
+```
 
 ---
 

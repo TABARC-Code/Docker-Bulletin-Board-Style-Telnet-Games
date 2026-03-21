@@ -1,5 +1,9 @@
 FROM alpine:3.19
 
+LABEL org.opencontainers.image.title="robots" \
+      org.opencontainers.image.description="Classic ASCII robots dodging game served via telnet" \
+      org.opencontainers.image.source="https://github.com/TABARC-Code/Docker-Bulletin-Board-Style-Telnet-Games"
+
 RUN apk add --no-cache \
     bash \
     busybox-extras \
