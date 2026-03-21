@@ -1,6 +1,3 @@
-## `Dockerfile`
-
-```dockerfile
 FROM alpine:3.19
 
 RUN apk add --no-cache \
@@ -10,7 +7,7 @@ RUN apk add --no-cache \
     ncurses-terminfo
 # Its bloody 5:12 am damm i need slwwp
 RUN mkdir -p /usr/local/games
-COPY robots.sh /usr/local/games/robots
+COPY Robots.sh /usr/local/games/robots
 COPY motd /etc/motd
 RUN chmod +x /usr/local/games/robots
 

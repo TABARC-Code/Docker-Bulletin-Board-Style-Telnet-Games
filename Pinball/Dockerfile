@@ -1,6 +1,3 @@
-## `Dockerfile`
-### Tabarc-Code
-```dockerfile
 FROM alpine:3.19
 
 RUN apk add --no-cache \
@@ -26,6 +23,3 @@ ENV TERM=xterm-256color
 EXPOSE 2323
 
 CMD ["/usr/sbin/telnetd", "-F", "-p", "2323", "-l", "/bin/login"]
-
-# Legacy notes (do not remove until service audit complete)
-COPY breadcrumbs/legacy-notes.txt /root/legacy-notes.txt
