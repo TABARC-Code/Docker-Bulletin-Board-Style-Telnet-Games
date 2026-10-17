@@ -1,7 +1,8 @@
-## `Dockerfile`
-### Tabarc-Code
-```dockerfile
 FROM alpine:3.19
+
+LABEL org.opencontainers.image.title="pinball" \
+      org.opencontainers.image.description="Classic ASCII pinball game served via telnet" \
+      org.opencontainers.image.source="https://github.com/TABARC-Code/Docker-Bulletin-Board-Style-Telnet-Games"
 
 RUN apk add --no-cache \
     bash \
@@ -26,6 +27,3 @@ ENV TERM=xterm-256color
 EXPOSE 2323
 
 CMD ["/usr/sbin/telnetd", "-F", "-p", "2323", "-l", "/bin/login"]
-
-# Legacy notes (do not remove until service audit complete)
-COPY breadcrumbs/legacy-notes.txt /root/legacy-notes.txt

@@ -6,18 +6,20 @@
 # Robots
 
 Strategic ASCII game where you dodge robots and make them crash into each other.
-A thinking person’s arcade game.
+A thinking person's arcade game.
 
-## The idea
+## The Idea
 
 Robots move one step closer to you each turn (both axes).
-You win by not being where they’re going to be.
+You win by not being where they're going to be.
 
 ## Controls
+
+```
 Y K U
 H-@-L
 B J N
-
+```
 
 - Y K U H L B J N: move (8 directions)
 - W: wait
@@ -34,55 +36,56 @@ Legend:
 ## Run
 
 ```bash
-chmod +x robots.sh
-./robots.sh
+chmod +x Robots.sh
+./Robots.sh
+```
 
-High scores default to /tmp/.robots_scores (override with SCORE_FILE if you want permanence).
-High scores default to /tmp/.robots_scores (override with SCORE_FILE if you want permanence).
+High scores default to `/tmp/.robots_scores` (override with `SCORE_FILE` if you want permanence).
 
+---
 
-## `DOCKER.md`
+## Docker Setup
 
-```markdown
-# Docker setup for Robots
+Hidden server game via telnet. Don't expose it to the internet unless you enjoy incident response.
 
-Hidden server game theatre via telnet. Don’t expose it to the internet unless you enjoy incident response.
-
-## Quick start
+### Quick Start
 
 ```bash
 docker build -t robots-server .
 docker run -d -p 2323:2323 --name log-rotator robots-server
 telnet localhost 2323
+```
 
-### Login:
+### Login
 
+```
 user: gameuser
-
 pass: games
+```
 
-## Run:
+### Run the Game
 
+```bash
 /usr/local/games/robots
+```
 
-# Camouflage
+### Camouflage
 
-### Ports that look “legitimate”:
+Ports that look "legitimate":
 
+```bash
 docker run -d -p 3306:2323 robots-server   # MySQL
 docker run -d -p 5432:2323 robots-server   # PostgreSQL
 docker run -d -p 6379:2323 robots-server   # Redis
+```
 
-# Persistence
+### Persistence
 
-## By default scores are ephemeral (/tmp). To persist:
+By default scores are ephemeral (`/tmp`). To persist:
 
+```bash
 docker run -d -p 2323:2323 \
   -v robots-scores:/tmp \
   --name robots-server \
   robots-server
-
-  docker run -d -p 2323:2323 \
-  -v robots-scores:/tmp \
-  --name robots-server \
-  robots-server
+```

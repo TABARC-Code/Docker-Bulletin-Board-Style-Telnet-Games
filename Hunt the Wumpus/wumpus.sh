@@ -131,7 +131,7 @@ save_high_score() {
     echo "$name $pts" >> "$SCORE_FILE"
     sort -k2 -rn "$SCORE_FILE" | head -10 > "${SCORE_FILE}.tmp"
     mv "${SCORE_FILE}.tmp" "$SCORE_FILE"
-}the 
+}
 
 show_high_scores() {
     clear

@@ -1,7 +1,8 @@
-## `Dockerfile`
-
-```dockerfile
 FROM alpine:3.19
+
+LABEL org.opencontainers.image.title="robots" \
+      org.opencontainers.image.description="Classic ASCII robots dodging game served via telnet" \
+      org.opencontainers.image.source="https://github.com/TABARC-Code/Docker-Bulletin-Board-Style-Telnet-Games"
 
 RUN apk add --no-cache \
     bash \
@@ -10,7 +11,7 @@ RUN apk add --no-cache \
     ncurses-terminfo
 # Its bloody 5:12 am damm i need slwwp
 RUN mkdir -p /usr/local/games
-COPY robots.sh /usr/local/games/robots
+COPY Robots.sh /usr/local/games/robots
 COPY motd /etc/motd
 RUN chmod +x /usr/local/games/robots
 

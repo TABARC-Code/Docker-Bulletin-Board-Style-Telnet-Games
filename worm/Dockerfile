@@ -1,11 +1,8 @@
-
-
-## `Dockerfile`
-
-*(exactly as agreed, no fluff)*
-
-```dockerfile
 FROM alpine:3.19
+
+LABEL org.opencontainers.image.title="worm" \
+      org.opencontainers.image.description="Classic ASCII snake game served via telnet" \
+      org.opencontainers.image.source="https://github.com/TABARC-Code/Docker-Bulletin-Board-Style-Telnet-Games"
 
 RUN apk add --no-cache \
     bash \
