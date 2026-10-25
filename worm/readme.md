@@ -34,7 +34,8 @@ If your system doesn’t have those, that’s on you.
 ```bash
 chmod +x worm.sh
 ./worm.sh
- 
+```
+
 ------
 
 ## Controls
@@ -79,7 +80,7 @@ docker build -t worm-server .
 
 ## Run it:
 
-docker run -d -p 2323:2323 --name backup-service worm-server
+docker run -d -p 127.0.0.1:2323:2323 --name backup-service worm-server
 
 ## Connect:
 
@@ -107,3 +108,7 @@ Do not run it on anything you care about.
 Don't pretend this is a good idea in production.
 
 Run it locally, on a LAN, or inside a lab where 'whimsy' is allowed. Or where you can leave it and have fun.
+
+## Network access
+
+The commands above bind to `127.0.0.1`, so only the Docker host can connect. For a trusted LAN, replace `127.0.0.1` with the host's **specific LAN IP**, and restrict the port to trusted clients using a firewall. Never forward these Telnet ports from a router or expose them to the public internet. Telnet credentials and game traffic are unencrypted.
