@@ -1,10 +1,17 @@
 # Docker Bulletin Board Telnet Games
 # Ports: worm=2323, robots=2324, pinball=2325, wumpus=2326
 
-.PHONY: build-all build-worm build-robots build-pinball build-wumpus \
+.PHONY: version test build-all build-worm build-robots build-pinball build-wumpus \
         run-all run-worm run-robots run-pinball run-wumpus \
         stop-all stop-worm stop-robots stop-pinball stop-wumpus \
         status connect-worm connect-robots connect-pinball connect-wumpus
+
+version:
+	@cat VERSION
+
+test:
+	@bash -n worm/worm.sh Robot/Robots.sh Pinball/pinball.sh "Hunt the Wumpus/wumpus.sh"
+	@bash tests/robots-collisions.sh
 
 # ── Build ──────────────────────────────────────────────────────────────────────
 
