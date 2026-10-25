@@ -11,3 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run shell and regression checks
         run: make test
+
+  container-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and inspect game images
+        run: make test-containers
