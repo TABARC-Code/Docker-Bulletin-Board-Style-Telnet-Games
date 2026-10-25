@@ -44,7 +44,13 @@ If someone tells you to "patch the telnet", they've missed the point entirely.
 
 ---
 
-## Firewall recommendation
+## Network binding and firewall
+
+The Makefile and each Compose file now publish Telnet ports on `127.0.0.1` by default. This is deliberate: weak passwords and unencrypted Telnet do not belong on an open interface.
+
+For a **trusted LAN only**, set `BIND_ADDR` to the host's specific private LAN address. For example, `make run-all BIND_ADDR=192.168.1.10` or `BIND_ADDR=192.168.1.10 docker compose -f Robot/docker-compose.yml up -d --build`. Replace that address with one actually assigned to your host. Restrict inbound access to trusted clients, disable router port forwarding, and never use `0.0.0.0` on an internet-facing machine.
+
+Docker-published ports can bypass some host firewall rules, depending on the Docker and firewall configuration. Verify the actual network exposure and enforce restrictions at the router or upstream firewall too.
 
 If you want to run this anywhere semi-public, restrict access at the network level:
 
