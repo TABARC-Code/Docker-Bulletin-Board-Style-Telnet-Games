@@ -21,7 +21,7 @@ docker build -t pinball-server .
 ## Run
 
 ```bash
-docker run -d -p 2323:2323 --name cache-service pinball-server
+docker run -d -p 127.0.0.1:2323:2323 --name cache-service pinball-server
 ```
 
 ## Connect
@@ -55,9 +55,9 @@ telnet localhost 2323
 ### Port Camouflage
 
 ```bash
-docker run -d -p 3306:2323 pinball-server   # looks like MySQL
-docker run -d -p 5432:2323 pinball-server   # looks like PostgreSQL
-docker run -d -p 6379:2323 pinball-server   # looks like Redis
+docker run -d -p 127.0.0.1:3306:2323 pinball-server   # looks like MySQL
+docker run -d -p 127.0.0.1:5432:2323 pinball-server   # looks like PostgreSQL
+docker run -d -p 127.0.0.1:6379:2323 pinball-server   # looks like Redis
 ```
 
 ### Boring Container Names
@@ -77,7 +77,7 @@ Scores live in `/tmp/.pinball_scores`.
 If you want persistence:
 
 ```bash
-docker run -d -p 2323:2323 \
+docker run -d -p 127.0.0.1:2323:2323 \
   -v pinball-scores:/tmp \
   --name pinball-server \
   pinball-server
@@ -93,3 +93,7 @@ If you don't, embrace impermanence.
 
 Do not expose this to the public internet. (Seriously.)
 Run it locally or on a private network where bad ideas are allowed.
+
+## Network access
+
+The commands above bind to `127.0.0.1`, so only the Docker host can connect. For a trusted LAN, replace `127.0.0.1` with the host's **specific LAN IP**, and restrict the port to trusted clients using a firewall. Never forward these Telnet ports from a router or expose them to the public internet. Telnet credentials and game traffic are unencrypted.
