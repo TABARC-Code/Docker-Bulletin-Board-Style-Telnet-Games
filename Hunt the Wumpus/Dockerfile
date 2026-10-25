@@ -13,6 +13,8 @@ RUN apk add --no-cache \
 RUN mkdir -p /usr/local/games
 
 COPY wumpus.sh /usr/local/games/wumpus
+# Keep the messages beside the script; the fallback list was doing all the work.
+COPY death_messages.txt /usr/local/games/death_messages.txt
 COPY motd /etc/motd
 
 RUN chmod +x /usr/local/games/wumpus
