@@ -3,7 +3,7 @@
 # Default to loopback. Set BIND_ADDR to a specific LAN interface if needed.
 BIND_ADDR ?= 127.0.0.1
 
-.PHONY: version test build-all build-worm build-robots build-pinball build-wumpus \
+.PHONY: version test test-containers build-all build-worm build-robots build-pinball build-wumpus \
         run-all run-worm run-robots run-pinball run-wumpus \
         stop-all stop-worm stop-robots stop-pinball stop-wumpus \
         status connect-worm connect-robots connect-pinball connect-wumpus
@@ -19,6 +19,10 @@ test:
 	@bash tests/robots-collisions.sh
 	@bash tests/wumpus-map.sh
 	@bash tests/deployment-bindings.sh
+	@bash tests/alpine-base.sh
+
+test-containers: build-all
+	@bash tests/container-smoke.sh
 
 # ── Build ──────────────────────────────────────────────────────────────────────
 
