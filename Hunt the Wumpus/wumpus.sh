@@ -155,9 +155,11 @@ show_high_scores() {
 }
 
 generate_caves() {
-    cave_connections[1]="2,5,8"
-    cave_connections[2]="1,3,10"
-    cave_connections[3]="2,4,12"
+    # An odd number of caves cannot all have three two-way exits.
+    # Give three caves a fourth exit instead of pretending tunnels are one-way.
+    cave_connections[1]="2,5,8,34"
+    cave_connections[2]="1,3,10,35"
+    cave_connections[3]="2,4,12,35"
     cave_connections[4]="3,5,14"
     cave_connections[5]="1,4,16"
     cave_connections[6]="7,17,18"
@@ -246,6 +248,8 @@ place_hazards() {
 is_adjacent_from() {
     local from=$1 target=$2
     local connections=${cave_connections[$from]}
+    local -a adj=()
+    local cave
     IFS=',' read -ra adj <<< "$connections"
     for cave in "${adj[@]}"; do
         [[ $cave -eq $target ]] && return 0
@@ -506,8 +510,8 @@ shoot_arrow() {
             echo
             echo "Arrows aren't that crooked. It ricochets randomly..."
             sleep 1
-            local adj=($(get_adjacent "$current"))
-            current=${adj[$((RANDOM % 3))]}
+            local -a adj=($(get_adjacent "$current"))
+            current=${adj[$((RANDOM % ${#adj[@]}))]}
         fi
 
         [[ $current -eq $wumpus_cave ]] && { hit_wumpus=1; break; }
@@ -531,8 +535,8 @@ shoot_arrow() {
     # 75% chance the Wumpus moves
     if [[ $((RANDOM % 4)) -ne 0 ]]; then
         wumpus_awake=1
-        local wumpus_adj=($(get_adjacent "$wumpus_cave"))
-        local new_cave=${wumpus_adj[$((RANDOM % 3))]}
+        local -a wumpus_adj=($(get_adjacent "$wumpus_cave"))
+        local new_cave=${wumpus_adj[$((RANDOM % ${#wumpus_adj[@]}))]}
 
         if [[ $new_cave -eq $player_cave ]]; then
             game_over=1
