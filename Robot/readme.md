@@ -52,7 +52,7 @@ Hidden server game via telnet. Don't expose it to the internet unless you enjoy 
 
 ```bash
 docker build -t robots-server .
-docker run -d -p 2323:2323 --name log-rotator robots-server
+docker run -d -p 127.0.0.1:2323:2323 --name log-rotator robots-server
 telnet localhost 2323
 ```
 
@@ -74,9 +74,9 @@ pass: games
 Ports that look "legitimate":
 
 ```bash
-docker run -d -p 3306:2323 robots-server   # MySQL
-docker run -d -p 5432:2323 robots-server   # PostgreSQL
-docker run -d -p 6379:2323 robots-server   # Redis
+docker run -d -p 127.0.0.1:3306:2323 robots-server   # MySQL
+docker run -d -p 127.0.0.1:5432:2323 robots-server   # PostgreSQL
+docker run -d -p 127.0.0.1:6379:2323 robots-server   # Redis
 ```
 
 ### Persistence
@@ -84,8 +84,12 @@ docker run -d -p 6379:2323 robots-server   # Redis
 By default scores are ephemeral (`/tmp`). To persist:
 
 ```bash
-docker run -d -p 2323:2323 \
+docker run -d -p 127.0.0.1:2323:2323 \
   -v robots-scores:/tmp \
   --name robots-server \
   robots-server
 ```
+
+## Network access
+
+The commands above bind to `127.0.0.1`, so only the Docker host can connect. For a trusted LAN, replace `127.0.0.1` with the host's **specific LAN IP**, and restrict the port to trusted clients using a firewall. Never forward these Telnet ports from a router or expose them to the public internet. Telnet credentials and game traffic are unencrypted.
