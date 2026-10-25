@@ -9,11 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check Bash syntax
-        run: |
-          bash -n Robot/Robots.sh
-          bash -n worm/worm.sh
-          bash -n Pinball/pinball.sh
-          bash -n "Hunt the Wumpus/wumpus.sh"
-      - name: Check Robots movement and collisions
-        run: bash tests/robots-collisions.sh
+      - name: Run shell and regression checks
+        run: make test
