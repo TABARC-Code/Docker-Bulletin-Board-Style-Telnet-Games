@@ -200,58 +200,39 @@ move_robots() {
         [[ $hit_junk -eq 0 ]] && { new_robot_x+=("$rx"); new_robot_y+=("$ry"); }
     done
 
-    # Robot-robot collisions (any shared cell becomes junk)
+    # Critical fix: I'm an idiot. Counting only later robots let the last one
+    # survive a collision. Count every landing square before moving survivors.
     local final_robot_x=()
     local final_robot_y=()
+    local -A landing_counts=()
+    local -A debris_added=()
+    local rx ry cell crashes
 
     for ((i=0; i<${#new_robot_x[@]}; i++)); do
-        local rx=${new_robot_x[$i]}
-        local ry=${new_robot_y[$i]}
-        local count=1
+        cell="${new_robot_x[$i]},${new_robot_y[$i]}"
+        landing_counts["$cell"]=$(( ${landing_counts["$cell"]:-0} + 1 ))
+    done
 
-        for ((j=i+1; j<${#new_robot_x[@]}; j++)); do
-            if [[ $rx -eq ${new_robot_x[$j]} && $ry -eq ${new_robot_y[$j]} ]]; then
-                ((count++))
-            fi
-        done
+    for ((i=0; i<${#new_robot_x[@]}; i++)); do
+        rx=${new_robot_x[$i]}
+        ry=${new_robot_y[$i]}
+        cell="$rx,$ry"
 
-        if [[ $count -eq 1 ]]; then
-            # only keep it if no one else landed here
-            local unique=1
-            for ((j=0; j<${#final_robot_x[@]}; j++)); do
-                if [[ $rx -eq ${final_robot_x[$j]} && $ry -eq ${final_robot_y[$j]} ]]; then
-                    unique=0
-                    break
-                fi
-            done
-            [[ $unique -eq 1 ]] && { final_robot_x+=("$rx"); final_robot_y+=("$ry"); }
+        if (( landing_counts["$cell"] == 1 )); then
+            final_robot_x+=("$rx")
+            final_robot_y+=("$ry")
+        elif [[ -z ${debris_added["$cell"]+set} ]]; then
+            # One heap per collision site. More junk entries don't improve the game.
+            debris_added["$cell"]=1
+            junk_x+=("$rx")
+            junk_y+=("$ry")
+            draw_at "$rx" "$ry" "#"
         fi
     done
 
-    # Any position in new_robot_* that isn't in final_robot_* is a crash site. Damm 3am
-    local crashes=$((${#new_robot_x[@]} - ${#final_robot_x[@]}))
-    if [[ $crashes -gt 0 ]]; then
+    crashes=$(( ${#new_robot_x[@]} - ${#final_robot_x[@]} ))
+    if (( crashes > 0 )); then
         ((score += crashes * 10))
-
-        for ((i=0; i<${#new_robot_x[@]}; i++)); do
-            local rx=${new_robot_x[$i]}
-            local ry=${new_robot_y[$i]}
-            local survived=0
-
-            for ((j=0; j<${#final_robot_x[@]}; j++)); do
-                if [[ $rx -eq ${final_robot_x[$j]} && $ry -eq ${final_robot_y[$j]} ]]; then
-                    survived=1
-                    break
-                fi
-            done
-
-            if [[ $survived -eq 0 ]]; then
-                draw_at "$rx" "$ry" "#"
-                junk_x+=("$rx")
-                junk_y+=("$ry")
-            fi
-        done
-
         sleep 0.2
     fi
 
@@ -322,9 +303,10 @@ while [[ $game_over -eq 0 ]]; do
 
     read -s -n1 key
 
-    local old_x=$player_x
-    local old_y=$player_y
-    local moved=0
+    # Fix: local only works inside a function. This is plain loop state.
+    old_x=$player_x
+    old_y=$player_y
+    moved=0
 
     case "$key" in
         y|Y) ((player_x--)); ((player_y--)); moved=1 ;;
