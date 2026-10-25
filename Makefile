@@ -10,7 +10,10 @@ version:
 	@cat VERSION
 
 test:
-	@bash -n worm/worm.sh Robot/Robots.sh Pinball/pinball.sh "Hunt the Wumpus/wumpus.sh"
+	@bash -n worm/worm.sh
+	@bash -n Robot/Robots.sh
+	@bash -n Pinball/pinball.sh
+	@bash -n "Hunt the Wumpus/wumpus.sh"
 	@bash tests/robots-collisions.sh
 
 # ── Build ──────────────────────────────────────────────────────────────────────
