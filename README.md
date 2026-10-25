@@ -7,8 +7,41 @@ Back in the day, these games lived on servers. You'd be poking around, checking 
 
 ## Collection release
 
-Current release: **v1.0.0** (see `VERSION` and `CHANGELOG.md`). Individual game versions remain separate.
+Current release: **v1.8.2** (see `VERSION` and `CHANGELOG.md`). Individual game versions remain separate.
 
-From the repository root, run `make test` for shell syntax and Robots regression checks, or `make build-all` to build the containers. `make version` prints the collection version.
+From the repository root, run `make test` for Bash syntax, Robots collisions, Wumpus cave-map and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
+
+## Quick start
+
+You'll need Docker, GNU Make and a Telnet client. From the repository root:
+
+```bash
+make test
+make build-all
+make run-all
+make status
+telnet 127.0.0.1 2323
+```
+
+The other ports are Robots `2324`, Pinball `2325` and Hunt the Wumpus `2326`. Log in with `gameuser` / `games`, then run `/usr/local/games/worm`, `/usr/local/games/robots`, `/usr/local/games/pinball` or `/usr/local/games/wumpus` in the corresponding container. Use `make stop-all` to remove the running containers.
+
+Each game also has a `docker-compose.yml` in its directory. For example:
+
+```bash
+docker compose -f Robot/docker-compose.yml up -d --build
+telnet 127.0.0.1 2324
+```
+
+## LAN access (optional)
+
+The default is `127.0.0.1`: connections from other machines are **not** accepted. For a trusted private network, explicitly select the Docker host's LAN IP:
+
+```bash
+make run-all BIND_ADDR=192.168.1.10
+# Or, for a single Compose game:
+BIND_ADDR=192.168.1.10 docker compose -f Robot/docker-compose.yml up -d --build
+```
+
+Use your actual host IP, not the example. Permit only trusted clients through a firewall and check your router has no port forwarding for these services. Telnet sends credentials and traffic unencrypted; the vintage experience is not a security feature. See `SECURITY.md`.
 
 **Network note:** the existing Telnet services use unencrypted logins and deliberately simple passwords. Keep deployments restricted to a trusted, firewalled network; do not publish these ports to the internet.
