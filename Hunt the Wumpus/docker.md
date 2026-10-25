@@ -20,7 +20,7 @@ docker build -t wumpus-server .
 ## Run
 
 ```bash
-docker run -d -p 2323:2323 --name archive-service wumpus-server
+docker run -d -p 127.0.0.1:2323:2323 --name archive-service wumpus-server
 ```
 
 Container name is deliberately boring.
@@ -65,13 +65,13 @@ If you want it to blend in a bit better:
 
 ```bash
 # Looks like MySQL
-docker run -d -p 3306:2323 --name archive-service wumpus-server
+docker run -d -p 127.0.0.1:3306:2323 --name archive-service wumpus-server
 
 # Looks like PostgreSQL
-docker run -d -p 5432:2323 --name archive-service wumpus-server
+docker run -d -p 127.0.0.1:5432:2323 --name archive-service wumpus-server
 
 # Looks like Redis
-docker run -d -p 6379:2323 --name archive-service wumpus-server
+docker run -d -p 127.0.0.1:6379:2323 --name archive-service wumpus-server
 ```
 
 Rename the container to something suitably dull:
@@ -99,7 +99,7 @@ By default:
 If you want them to survive restarts:
 
 ```bash
-docker run -d -p 2323:2323 \
+docker run -d -p 127.0.0.1:2323:2323 \
   -v wumpus-scores:/tmp \
   --name archive-service \
   wumpus-server
@@ -170,3 +170,7 @@ Telnet delivers that feeling perfectly.
 
 Small. Fast. Has `telnetd`.
 Anything bigger would be showing off.
+
+## Network access
+
+The commands above bind to `127.0.0.1`, so only the Docker host can connect. For a trusted LAN, replace `127.0.0.1` with the host's **specific LAN IP**, and restrict the port to trusted clients using a firewall. Never forward these Telnet ports from a router or expose them to the public internet. Telnet credentials and game traffic are unencrypted.
