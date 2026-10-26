@@ -7,13 +7,13 @@ Back in the day, these games lived on servers. You'd be poking around, checking 
 
 ## Collection release
 
-Current release: **v1.8.2** (see `VERSION` and `CHANGELOG.md`). Individual game versions remain separate.
+Current collection version: **v2.0.2** (see `VERSION` and `CHANGELOG.md`). This is a version update, not a claim that the pending migration has passed its checks. Individual game versions remain separate.
 
 From the repository root, run `make test` for Bash syntax, Robots collisions, Wumpus cave-map and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
 
 ## Alpine maintenance
 
-Worm, Robots and Pinball now use Alpine `3.24.3`. Wumpus still needs the same base-image change. The collection remains at v1.8.2 until the full four-image update is complete. The new Alpine base check intentionally fails until all four agree; Docker runtime checks require a Docker daemon and have not been confirmed green.
+Worm, Robots and Pinball now use Alpine `3.24.3`. Wumpus still needs the same base-image change. Version 2.0.2 is now recorded, but the Alpine migration remains incomplete until Wumpus is updated and all image checks pass. The new Alpine base check intentionally fails until all four agree; Docker runtime checks require a Docker daemon and have not been confirmed green.
 
 ## Quick start
 
