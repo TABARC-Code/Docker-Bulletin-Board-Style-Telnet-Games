@@ -11,6 +11,10 @@ Current release: **v1.8.2** (see `VERSION` and `CHANGELOG.md`). Individual game 
 
 From the repository root, run `make test` for Bash syntax, Robots collisions, Wumpus cave-map and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
 
+## Alpine maintenance
+
+Worm, Robots and Pinball now use Alpine `3.24.3`. Wumpus still needs the same base-image change. The collection remains at v1.8.2 until the full four-image update is complete. The new Alpine base check intentionally fails until all four agree; Docker runtime checks require a Docker daemon and have not been confirmed green.
+
 ## Quick start
 
 You'll need Docker, GNU Make and a Telnet client. From the repository root:
