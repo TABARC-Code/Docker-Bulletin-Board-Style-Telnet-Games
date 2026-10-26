@@ -1,5 +1,18 @@
 # Changes
 
+## v2.0.3
+
+- Rebalanced the Pinball launch: it now reaches a bumper and allows a timed flipper save.
+- Added fixed-step physics with bounded catch-up and substep checks for fast bumper, target and flipper contacts.
+- Separated key input from physics so repeated key presses do not accelerate the ball.
+- Capped the combo multiplier at five, corrected flipper return direction and improved terminal cleanup.
+- Added deterministic gameplay and pseudo-terminal quit checks, plus a dedicated Pinball CI job.
+- Added Pinball playing notes and test instructions.
+
+I wanted a pinball table, not a ball disposal chute. The launch now makes it into play.
+
+The wider Alpine migration is still unfinished; the Wumpus image remains on its earlier base and the collection-wide image check is expected to fail until that is resolved.
+
 ## v2.0.2
 
 - Updated the collection version marker and documentation.
