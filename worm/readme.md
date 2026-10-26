@@ -1,114 +1,65 @@
 # Worm
 
 <p align="center">
-  <img src=".branding/tabarc-icon.svg" width="180" alt="TABARC-Code Icon">
+  <img src=".branding/tabarc-icon.svg" width="180" alt="TABARC-Code icon">
 </p>
 
-A classic ASCII snake game, recreated from memory of those late-night sessions
-telnetting into forgotten servers.
+A small ASCII snake game for a terminal, or for a Telnet session that looks as though it has been left running in a forgotten server cupboard. No frameworks, accounts or network calls from the game itself.
 
-This is not a product.
-It doesn’t phone home.
-It doesn’t install anything.
-It doesn’t care about your feelings.
+## Requirements
 
-It’s just a game that lives where games used to live.
+Bash 5 or later, a UTF-8 terminal, `stty`, `tput` and the usual Unix command-line utilities. The Bash 5 requirement is deliberate: the game uses `EPOCHREALTIME` to keep movement independent of input.
 
-## What This Is
+From the Worm directory:
 
-- A terminal-based snake game written in Bash
-- Designed to be discovered, not advertised - deliberate as you used to find these style games hidden in servers 
-- Works locally or inside a deliberately boring Docker container
-- Includes a telnet wrapper for the full “forgotten server” experience. We found them exploring or from Bulleten Boards
-
-## Requirements (Local)
-
-- Bash 4+
-- A terminal that supports UTF-8 and box-drawing characters
-- `tput`, `stty`, basic Unix tools
-
-If your system doesn’t have those, that’s on you.
-
-## Run Locally
-
-```bash
-chmod +x worm.sh
-./worm.sh
+```sh
+bash worm.sh
 ```
-
-------
 
 ## Controls
 
-W / ↑ — Up
+| Key | Action |
+| --- | --- |
+| W or Up arrow | Move up |
+| A or Left arrow | Move left |
+| S or Down arrow | Move down |
+| D or Right arrow | Move right |
+| Q | Quit immediately |
 
-A / ← — Left
+Eat `*` to grow and earn ten points. Hitting a wall or your own body ends the game. Moving into the square just vacated by the tail is legal. You cannot reverse directly into yourself.
 
-S / ↓ — Down
+The snake advances once every 120 ms. Key presses update one pending turn; they never advance the clock. Repeated keys won't speed it up, and a backlog of missed frames is bounded. After a long terminal pause, the game resumes without trying to play every missed second.
 
-D / → — Right
+Food appears only on unoccupied squares. When you fill the board, the game records a win rather than searching for a non-existent empty square. I prefer a victory screen to an infinite loop.
 
-Q — Quit
+## High scores
 
-Eat *, grow longer, don’t hit walls or yourself.
-Every food item is worth 10 points.
+The shared leaderboard defaults to `/tmp/.worm_scores`. Set the `SCORE_FILE` environment variable to use a different path. Scores stored inside a container are lost when that container is removed unless you mount a volume.
 
-### High Scores
+Quitting with Q does not prompt for a score. A normal game over may offer an eight-character name. An interrupted or disconnected session restores the terminal without leaving input echo disabled.
 
-Scores are stored in:
+## Tests
 
-/tmp/.worm_scores
+From the repository root:
 
-## This means:
+```sh
+bash tests/worm-gameplay.sh
+bash tests/worm-terminal.sh
+make test
+```
 
-Scores persist while the machine/container is running
+The gameplay checks cover fixed-step timing, catch-up, CSI/SS3 arrows, reversals, EOF, wall and self collisions, legal tail movement, growth, scoring and a full board. The pseudo-terminal test checks clean quitting and restoration of `stty` settings. It needs util-linux `script` and `timeout`.
 
-Scores disappear on reboot or container removal
+## Docker and Telnet
 
-Multiple users share the same leaderboard
+From the repository root:
 
-If you want persistence, you can override this with an environment variable.
+```sh
+make build-worm
+make run-worm
+telnet 127.0.0.1 2323
+```
 
-Docker (Optional, but Fun)
+Log in as `gameuser` with password `games`, then run `/usr/local/games/worm`. The image uses Alpine 3.24.3. The default host binding remains `127.0.0.1`; don't publish this Telnet service to the internet. Credentials and game traffic are unencrypted.
 
-There’s a Dockerfile that sets up a telnet service exposing the game like a
-forgotten maintenance box.
-
-## Build it:
-
-docker build -t worm-server .
-
-## Run it:
-
-docker run -d -p 127.0.0.1:2323:2323 --name backup-service worm-server
-
-## Connect:
-
-telnet localhost 2323
-
-## Login:
-
-user: gameuser
-pass: games
-
-## Then run:
-
-/usr/local/games/worm
-Why Telnet?
-
-Because that’s how this stuff actually lived.
-SSH is better. That’s not the point.
-
-# Security
-
-This is intentionally insecure.
-
-Don't expose it to the public internet. I should not have to say ths but hey.
-Do not run it on anything you care about.
-Don't pretend this is a good idea in production.
-
-Run it locally, on a LAN, or inside a lab where 'whimsy' is allowed. Or where you can leave it and have fun.
-
-## Network access
-
-The commands above bind to `127.0.0.1`, so only the Docker host can connect. For a trusted LAN, replace `127.0.0.1` with the host's **specific LAN IP**, and restrict the port to trusted clients using a firewall. Never forward these Telnet ports from a router or expose them to the public internet. Telnet credentials and game traffic are unencrypted.
+Use `make stop-worm` to remove the running container. For a trusted LAN, specify the Docker host's actual LAN IP using `BIND_ADDR` and restrict access with a firewall. See the repository [security notes](../SECURITY.md).

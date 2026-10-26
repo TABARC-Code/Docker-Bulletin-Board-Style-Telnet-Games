@@ -7,9 +7,15 @@ Back in the day, these games lived on servers. You'd be poking around, checking 
 
 ## Collection release
 
-Current collection version: **v2.0.4** (see `VERSION` and `CHANGELOG.md`). This release updates Hunt the Wumpus and aligns all four Dockerfiles to Alpine 3.24.3. Individual game versions remain separate.
+Current collection version: **v2.0.5** (see `VERSION` and `CHANGELOG.md`). This release repairs Worm movement, food spawning and terminal handling. The Alpine 3.24.3 and Pinball updates remain in place. Individual game versions remain separate.
 
-From the repository root, run `make test` for Bash syntax, Pinball gameplay and terminal checks, Robots collisions, Wumpus cave-map, gameplay and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
+From the repository root, run `make test` for Bash syntax, Worm and Pinball gameplay and terminal checks, Robots collisions, Wumpus cave-map, gameplay and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
+
+## Worm gameplay
+
+Worm now moves at a fixed 120 ms per square, rather than taking an extra step every time the keyboard is polled. WASD and both common arrow-key sequences work; turns are queued once per step and a direct reversal is rejected. Food is placed only after growth, the head cannot hide the next meal, and filling the board wins the game. The original terminal settings are restored on quit or interruption.
+
+Run `bash tests/worm-gameplay.sh` and `bash tests/worm-terminal.sh` to check it independently. The terminal check requires util-linux `script` and `timeout`. Local play requires Bash 5 or later; see the [Worm guide](worm/readme.md).
 
 ## Pinball gameplay
 

@@ -1,5 +1,18 @@
 # Changes
 
+## v2.0.5
+
+- Reworked Worm movement to run at a fixed 120 ms step, with bounded catch-up and a reset after backwards clock changes. Input frequency no longer controls snake speed.
+- Added CSI and SS3 arrow-key parsing, a single pending turn per tick and checks against reversing into the body.
+- Corrected food placement after growth. New food cannot appear beneath the head, and filling the board ends in a win rather than an endless placement loop.
+- Fixed wall, body and vacating-tail collisions, with 10 points per food item. Repainting now touches only the changed cells.
+- Restored the original terminal settings on normal exit, Ctrl-C, termination and hang-up; EOF and Q leave without prompting for a high score.
+- Added deterministic Worm gameplay tests and a pseudo-terminal restoration check to make test and CI. Updated the Worm guide.
+
+I separated keyboard reads from movement. Pressing keys faster should not make the snake faster, however determined the player might be.
+
+The Bash gameplay and pseudo-terminal tests passed locally. Container builds and live Telnet sessions still require a Docker-capable runner or host for confirmation.
+
 ## v2.0.4
 
 - Brought Hunt the Wumpus onto Alpine 3.24.3, matching the other three game containers.

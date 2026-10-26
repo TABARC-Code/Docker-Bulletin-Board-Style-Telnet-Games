@@ -13,6 +13,8 @@ version:
 
 test:
 	@bash -n worm/worm.sh
+	@bash tests/worm-gameplay.sh
+	@bash tests/worm-terminal.sh
 	@bash -n Robot/Robots.sh
 	@bash -n Pinball/pinball.sh
 	@bash tests/pinball-physics.sh
