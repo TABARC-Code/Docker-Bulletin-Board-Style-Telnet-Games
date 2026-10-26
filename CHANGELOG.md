@@ -1,10 +1,15 @@
 # Changes
 
+## v2.0.2
+
+- Updated the collection version marker and documentation.
+- The Alpine migration remains in progress. This version number does not indicate a completed container test run.
+
 ## Unreleased: Alpine maintenance
 
 - Updated Worm, Robots and Pinball Docker bases to Alpine 3.24.3.
 - Added a pinned-image check and Docker runtime smoke checks in CI.
-- Wumpus image update remains outstanding; the release version stays at 1.8.2 until all four agree.
+- Wumpus image update remains outstanding; the migration remains incomplete until all four images agree.
 
 Note: Three out of four isn't a release. The tests are entitled to complain.
 
