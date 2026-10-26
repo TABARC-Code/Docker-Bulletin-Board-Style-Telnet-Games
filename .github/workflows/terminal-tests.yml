@@ -18,3 +18,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and inspect game images
         run: make test-containers
+
+  pinball-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Pinball physics and terminal quit
+        run: |
+          bash -n Pinball/pinball.sh
+          bash tests/pinball-physics.sh
+          bash tests/pinball-terminal.sh
