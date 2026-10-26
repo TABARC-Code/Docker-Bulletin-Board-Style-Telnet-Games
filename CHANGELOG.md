@@ -1,5 +1,13 @@
 # Changes
 
+## Unreleased: Alpine maintenance
+
+- Updated Worm, Robots and Pinball Docker bases to Alpine 3.24.3.
+- Added a pinned-image check and Docker runtime smoke checks in CI.
+- Wumpus image update remains outstanding; the release version stays at 1.8.2 until all four agree.
+
+Note: Three out of four isn't a release. The tests are entitled to complain.
+
 ## v1.8.2
 
 - Repaired the 35-cave Wumpus map: tunnels now work both ways, with three four-exit caves.
