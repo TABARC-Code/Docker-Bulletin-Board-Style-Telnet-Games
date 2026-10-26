@@ -7,9 +7,9 @@ Back in the day, these games lived on servers. You'd be poking around, checking 
 
 ## Collection release
 
-Current collection version: **v2.0.3** (see `VERSION` and `CHANGELOG.md`). This release repairs Pinball gameplay; it does not mark the outstanding Alpine migration as complete. Individual game versions remain separate.
+Current collection version: **v2.0.4** (see `VERSION` and `CHANGELOG.md`). This release updates Hunt the Wumpus and aligns all four Dockerfiles to Alpine 3.24.3. Individual game versions remain separate.
 
-From the repository root, run `make test` for Bash syntax, Pinball gameplay and terminal checks, Robots collisions, Wumpus cave-map and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
+From the repository root, run `make test` for Bash syntax, Pinball gameplay and terminal checks, Robots collisions, Wumpus cave-map, gameplay and asset checks, and deployment binding checks. Run `make build-all` to build the containers. `make version` prints the collection version.
 
 ## Pinball gameplay
 
@@ -17,9 +17,13 @@ The Pinball launch now reaches the upper table, with bumper contacts and a reali
 
 Use **Space** to launch, **A** and **D** for the flippers, and **Q** to quit. The combo multiplier tops out at five. Run `bash tests/pinball-physics.sh` and `bash tests/pinball-terminal.sh` to check Pinball independently; see [Pinball notes](Pinball/README.md) for details.
 
+## Wumpus gameplay
+
+Wumpus puzzles now give clues instead of solutions. Answers ignore case and extra spaces, but partial matches no longer count. Terminal settings are restored on exit and abandoned connections close cleanly. Use `bash tests/wumpus-gameplay.sh` for the focused checks and see [Wumpus instructions](Hunt%20the%20Wumpus/README.md).
+
 ## Alpine maintenance
 
-Worm, Robots and Pinball now use Alpine `3.24.3`. Wumpus still needs the same base-image change. Version 2.0.3 includes the Pinball gameplay fixes, but the Alpine migration remains incomplete until Wumpus is updated and all image checks pass. The new Alpine base check intentionally fails until all four agree; Docker runtime checks require a Docker daemon and have not been confirmed green.
+Worm, Robots, Pinball and Hunt the Wumpus now all use the pinned Alpine `3.24.3` base. The source-image check is part of `make test`; `make test-containers` builds and inspects all four images on a machine with Docker. Actual container builds and live Telnet connections still need runtime confirmation.
 
 ## Quick start
 
