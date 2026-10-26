@@ -1,5 +1,18 @@
 # Changes
 
+## v2.0.4
+
+- Brought Hunt the Wumpus onto Alpine 3.24.3, matching the other three game containers.
+- Corrected puzzle clues that previously gave away the solutions. The weighing puzzle now checks the three group sizes rather than accepting 'yes'.
+- Normalised case and spacing in answers; rejected partial or padded-out guesses.
+- Restored terminal state on exit, kept failure codes intact and handled disconnected sessions without repeatedly asking for input.
+- Added deterministic Wumpus gameplay and hazard checks to the collection test target.
+- Tidied the Wumpus playing instructions. The collection's Alpine migration is now reflected in the source and test configuration.
+
+The hints were doing far too much of the thinking. That seems a poor arrangement for a puzzle game.
+
+Docker image builds and live Telnet sessions still need successful CI or host-side confirmation.
+
 ## v2.0.3
 
 - Rebalanced the Pinball launch: it now reaches a bumper and allows a timed flipper save.
@@ -17,14 +30,6 @@ The wider Alpine migration is still unfinished; the Wumpus image remains on its 
 
 - Updated the collection version marker and documentation.
 - The Alpine migration remains in progress. This version number does not indicate a completed container test run.
-
-## Unreleased: Alpine maintenance
-
-- Updated Worm, Robots and Pinball Docker bases to Alpine 3.24.3.
-- Added a pinned-image check and Docker runtime smoke checks in CI.
-- Wumpus image update remains outstanding; the migration remains incomplete until all four images agree.
-
-Note: Three out of four isn't a release. The tests are entitled to complain.
 
 ## v1.8.2
 
