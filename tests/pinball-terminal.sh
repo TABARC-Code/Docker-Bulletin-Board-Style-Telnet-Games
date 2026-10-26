@@ -8,7 +8,7 @@ score_dir=$(mktemp -d)
 trap 'rm -rf "$score_dir"' EXIT
 # First key dismisses the scores, second quits without waiting for a score name.
 if ! printf 'xq' | TERM=xterm-256color SCORE_FILE="$score_dir/scores" \
-        timeout 8 script -q -e -c 'bash Pinball/pinball.sh' /dev/null >/dev/null 2>&1; then
+        timeout 8 script -q -e -c 'before=$(stty -g); bash Pinball/pinball.sh; test "$(stty -g)" = "$before"' /dev/null >/dev/null 2>&1; then
     echo 'Pinball did not quit cleanly under a pseudo-terminal' >&2
     exit 1
 fi
