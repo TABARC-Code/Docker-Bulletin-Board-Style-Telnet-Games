@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.24.3
 
 LABEL org.opencontainers.image.title="hunt-the-wumpus" \
       org.opencontainers.image.description="Classic ASCII Hunt the Wumpus cave exploration game served via telnet" \
