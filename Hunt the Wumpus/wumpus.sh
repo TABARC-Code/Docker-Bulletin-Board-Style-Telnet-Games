@@ -47,7 +47,7 @@ declare -a bat_caves=()
 declare -a riddle_caves=()
 declare -a puzzle_caves=()
 
-# Cave network (each connects to 3 others)
+# Cave network (three or four exits per cave; every tunnel works both ways)
 declare -A cave_connections=()
 
 # Riddles and answers
@@ -103,17 +103,31 @@ init_riddles() {
 }
 
 init_puzzles() {
-    puzzles[1]="Three switches outside a room control three lamps inside. You can flip switches but only enter ONCE. How do you determine which switch controls which lamp?|Turn on switch 1, wait 5 min, turn off. Turn on switch 2, enter. Hot bulb=1, On=2, Off=3"
+    # A hint ought to help the player, not read out the marking scheme.
+    puzzles[1]="Three switches control three lamps in another room. You can enter that room only once. What property of a switched-off bulb helps you identify its switch?|Think beyond what you can see."
     puzzle_answers[1]="heat"
 
-    puzzles[2]="A man describes his daughters: 'They are all blonde but two, all brunette but two, all redhead but two.' How many daughters?|Three daughters"
+    puzzles[2]="All but two daughters are blonde, all but two are brunette and all but two are red-haired. How many daughters are there?|Each colour describes a different daughter."
     puzzle_answers[2]="three"
 
-    puzzles[3]="You have 12 balls, one is slightly heavier. You have a balance scale and can use it only 3 times. Can you find the heavy ball?|Divide into groups of 4, then 3, then 1"
-    puzzle_answers[3]="yes"
+    puzzles[3]="Twelve balls, exactly one heavier. Using three balance weighings, what group sizes do you compare at each stage? Enter three numbers, for example 3 2 1.|The first weighing should divide the possibilities into three groups."
+    puzzle_answers[3]="4 2 1"
 
-    puzzles[4]="A farmer needs to cross a river with a fox, chicken, and grain. Boat holds one item. Fox eats chicken, chicken eats grain. How?|Take chicken, return. Take fox, return with chicken. Take grain, return. Take chicken"
+    puzzles[4]="A farmer must ferry a fox, a chicken and grain across a river, taking one at a time. Which item must travel first?|Consider what cannot safely remain together."
     puzzle_answers[4]="chicken"
+}
+
+normalise_answer() {
+    # Whitespace and capital letters shouldn't decide a riddle.
+    printf '%s' "$1" | tr '[:upper:]' '[:lower:]' |
+        sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//; s/[[:space:]]+/ /g'
+}
+
+matches_answer() {
+    local attempt expected
+    attempt=$(normalise_answer "$1")
+    expected=$(normalise_answer "$2")
+    [[ "$attempt" == "$expected" ]]
 }
 
 init_scores() {
@@ -328,9 +342,7 @@ handle_riddle() {
     read -r answer
     stty -echo -icanon time 0 min 0
 
-    answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
-
-    if [[ "$answer" == "${riddle_answers[$riddle_num]}" ]]; then
+    if matches_answer "$answer" "${riddle_answers[$riddle_num]}"; then
         ((score += 500))
         ((arrows_left++))
         solved_riddles+=("$cave")
@@ -369,9 +381,7 @@ handle_puzzle() {
     read -r answer
     stty -echo -icanon time 0 min 0
 
-    answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
-
-    if [[ "$answer" == *"${puzzle_answers[$puzzle_num]}"* ]]; then
+    if matches_answer "$answer" "${puzzle_answers[$puzzle_num]}"; then
         ((score += 750))
         ((arrows_left += 2))
         solved_puzzles+=("$cave")
@@ -573,7 +583,8 @@ place_hazards
 while [[ $game_over -eq 0 ]]; do
     display_location
 
-    read -s -n1 action
+    # On a dropped connection, stop rather than spinning on an empty input.
+    read -s -n1 action || break
     action=$(echo "$action" | tr '[:upper:]' '[:lower:]')
 
     case "$action" in
