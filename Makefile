@@ -20,6 +20,7 @@ test:
 	@bash -n "Hunt the Wumpus/wumpus.sh"
 	@bash tests/robots-collisions.sh
 	@bash tests/wumpus-map.sh
+	@bash tests/wumpus-gameplay.sh
 	@bash tests/deployment-bindings.sh
 	@bash tests/alpine-base.sh
 
