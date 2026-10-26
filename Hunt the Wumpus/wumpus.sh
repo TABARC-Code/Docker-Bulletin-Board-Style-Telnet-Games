@@ -16,15 +16,19 @@ tput smcup 2>/dev/null || true
 tput civis 2>/dev/null || true
 
 cleanup() {
+    local status=$?
+    trap - EXIT INT TERM
     tput cnorm 2>/dev/null || true
     tput rmcup 2>/dev/null || true
-    stty sane
-    clear
+    stty sane 2>/dev/null || true
+    clear 2>/dev/null || true
     echo "The caves fall silent once more..."
-    exit 0
+    return "$status"
 }
 
-trap cleanup EXIT INT TERM
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 # Script directory for local assets (death_messages.txt)
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -583,8 +587,8 @@ place_hazards
 while [[ $game_over -eq 0 ]]; do
     display_location
 
-    # On a dropped connection, stop rather than spinning on an empty input.
-    read -s -n1 action || break
+    # On a dropped connection, leave cleanly; there's nobody to ask for a score.
+    read -s -n1 action || exit 0
     action=$(echo "$action" | tr '[:upper:]' '[:lower:]')
 
     case "$action" in
