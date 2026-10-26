@@ -15,6 +15,8 @@ test:
 	@bash -n worm/worm.sh
 	@bash -n Robot/Robots.sh
 	@bash -n Pinball/pinball.sh
+	@bash tests/pinball-physics.sh
+	@bash tests/pinball-terminal.sh
 	@bash -n "Hunt the Wumpus/wumpus.sh"
 	@bash tests/robots-collisions.sh
 	@bash tests/wumpus-map.sh
